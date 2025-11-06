@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Teacher Dashboard</h2>
+
+<div class="row">
+  <div class="col-md-6">
+    <h4>Record Attendance</h4>
+    <form method="post" action="{% url 'add_attendance' %}">
+      {% csrf_token %}
+      {{ attendance_form.student.label_tag }} {{ attendance_form.student }}
+      {{ attendance_form.date.label_tag }} {{ attendance_form.date }}
+      {{ attendance_form.status.label_tag }} {{ attendance_form.status }}
+      <div class="mt-2">
+        <button class="btn btn-success">Save Attendance</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-md-6">
+    <h4>Recent Feedback</h4>
+    <div class="list-group">
+      {% for f in feedbacks %}
+        <div class="list-group-item">
+          <strong>{{ f.student.username }}</strong> <small class="text-muted">{{ f.created_at }}</small>
+          <p class="mb-0">{{ f.message }}</p>
+        </div>
+      {% empty %}
+        <div class="list-group-item">No feedback yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<h4 class="mt-4">Attendance Records</h4>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead><tr><th>Student</th><th>Date</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for a in attendances %}
+        <tr>
+          <td>{{ a.student.username }}</td>
+          <td>{{ a.date }}</td>
+          <td>{{ a.get_status_display }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3">No attendance records found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

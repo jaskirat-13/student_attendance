@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<p>All attendance records</p>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead><tr><th>Student</th><th>Date</th><th>Status</th><th>Recorded by</th></tr></thead>
+    <tbody>
+      {% for a in attendances %}
+        <tr>
+          <td>{{ a.student.username }}</td>
+          <td>{{ a.date }}</td>
+          <td>{{ a.get_status_display }}</td>
+          <td>{{ a.recorded_by }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No attendance records found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h3 class="mt-4">Recent Feedback</h3>
+<div class="list-group">
+  {% for f in feedbacks %}
+    <div class="list-group-item">
+      <strong>{{ f.student.username }}</strong> <small class="text-muted">{{ f.created_at }}</small>
+      <p class="mb-0">{{ f.message }}</p>
+    </div>
+  {% empty %}
+    <div class="list-group-item">No feedback yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}
