@@ -1,1 +1,1 @@
-web: gunicorn ATTEN-FINAL.wsgi
+web: gunicorn mysite.wsgi
